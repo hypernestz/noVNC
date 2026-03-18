@@ -57,22 +57,34 @@ html {
  * Spinner
  * ----------------------------------------
  */
-
-/* HTML: <div class="loader"></div> */
-/* HTML: <div class="loader"></div> */
 .noVNC_spinner {
-  width: 60px;
-  aspect-ratio: 1;
-  --g: conic-gradient(from -90deg at 10px 10px,#fff 90deg,#0000 0);
-  background: 
-    var(--g),
-    var(--g) 10px 10px,
-    var(--g) 20px 20px;
-  background-size: 50% 50%;
-  animation: l15 1s infinite;
+    position: relative;
 }
-@keyframes l15 {
-    90%,100%  {background-position: -30px 30px,-20px 40px,-10px 50px} 
+.noVNC_spinner, .noVNC_spinner::before, .noVNC_spinner::after {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    box-shadow: -60px 10px 0 rgba(255, 255, 255, 0);
+    animation: noVNC_spinner 1.0s linear infinite;
+}
+.noVNC_spinner::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    animation-delay: -0.1s;
+}
+.noVNC_spinner::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    animation-delay: 0.1s;
+}
+@keyframes noVNC_spinner {
+    0% { box-shadow: -60px 10px 0 rgba(255, 255, 255, 0); width: 20px; }
+    25% { box-shadow: 20px 10px 0 rgba(255, 255, 255, 1); width: 10px; }
+    50% { box-shadow: 60px 10px 0 rgba(255, 255, 255, 0); width: 10px; }
 }
 /* ----------------------------------------
  * WebKit centering hacks
@@ -132,42 +144,42 @@ html {
 #noVNC_fallback_error {
   z-index: 1000;
   visibility: hidden;
-  /* Put a dark background in front of everything but the error,
-     and don't let mouse events pass through */
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(30, 34, 41, 0.85); /* Nền tối mờ */
+  backdrop-filter: blur(8px);
   pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #noVNC_fallback_error.noVNC_open {
   visibility: visible;
 }
 
 #noVNC_fallback_error > div {
-  max-width: calc(100vw - 30px - 30px);
-  max-height: calc(100vh - 30px - 30px);
+  max-width: calc(100vw - 60px);
+  max-height: calc(100vh - 60px);
   overflow: auto;
-
-  padding: 15px;
-
-  transition: 0.5s ease-in-out;
-
-  transform: translateY(-50px);
+  padding: 30px;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy nhẹ */
+  transform: translateY(-50px) scale(0.9);
   opacity: 0;
-
   text-align: center;
-  font-weight: bold;
   color: #fff;
-
-  border-radius: 10px;
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.5);
-  background: rgba(200,55,55,0.8);
+  border-radius: 20px; /* Bo góc lớn */
+  border: 1px solid rgba(255, 77, 77, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 77, 77, 0.1);
+  background: #282d36; /* Trùng màu chính */
 }
 #noVNC_fallback_error.noVNC_open > div {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   opacity: 1;
 }
 
 #noVNC_fallback_errormsg {
-  font-weight: normal;
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  color: #ffb3b3;
 }
 
 #noVNC_fallback_errormsg .noVNC_message {
@@ -179,20 +191,22 @@ html {
 
 #noVNC_fallback_error .noVNC_location {
   font-style: italic;
-  font-size: 0.8em;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 #noVNC_fallback_error .noVNC_stack {
-  padding: 10px;
-  margin: 10px;
-  font-size: 0.8em;
+  padding: 15px;
+  margin: 15px 0 0 0;
+  font-size: 0.85em;
   text-align: left;
   font-family: monospace;
   white-space: pre;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
   overflow: auto;
+  color: #d1d5db;
 }
 
 /* ----------------------------------------
